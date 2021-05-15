@@ -7,12 +7,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.criclytica.facemaskdetector.R
-import com.google.tflite.imageclassification.sample.tflite.Classifier
+import com.criclytica.facemaskdetector.tflite.Classifier
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val mInputSize = 224
-    private val mModelPath = "converted_model.tflite"
+    private val mModelPath = "FaceMaskDetectorModel.tflite"
     private val mLabelPath = "label.txt"
     private lateinit var classifier: Classifier
 
@@ -41,6 +41,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         val result = classifier.recognizeImage(bitmap)
 
-        runOnUiThread { Toast.makeText(this, result.get(0).title, Toast.LENGTH_SHORT).show() }
+        runOnUiThread {
+            if (result != null) {
+                Toast.makeText(this, result[0]?.title, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
